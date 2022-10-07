@@ -34,7 +34,7 @@ func FileFromPath(path string) (file *File, err error) {
     return
   }
   file = &File{
-    uuid.New(),
+    uuid.New().String(),
     data,
     info.Name(),
     info,
