@@ -1,28 +1,25 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
+	database "main/database"
 	handlers "main/handlers"
-  database "main/database"
+	flags "main/utils/flags"
 	"net/http"
-  flags "main/utils/flags"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
 	r := mux.NewRouter()
-  config := &database.DatabaseConfig{}
-  flags.ParseArgs(config, "ConnectionString")
-  if config.ConnectionString == "" {
-    config.ConnectionString = ":memory:"
-  }
+	config := &database.DatabaseConfig{}
+	err := flags.ParseArgs(config, "ConnectionString")
 
-  _, err := database.Connect(config)
-  if err != nil {
-    panic(err)
-  }
+	_, err = database.Connect(config)
+	if err != nil {
+		panic(err)
+	}
 
-  
 	handlers.FileHandler(r)
-  
+
 	http.ListenAndServe(":80", r)
 }

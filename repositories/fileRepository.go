@@ -1,15 +1,18 @@
 package repositories
 
-import "main/database"
+import (
+	database "main/database"
+	models "main/models"
+)
 
 type FileRepository struct {
-  db *database.Database
+	db *database.Database
 }
 
-func (repo *FileRepository) GetById(uuid string) []File {
-	output := make([]int, 0)
-	for i := min; i < max; i++ {
-		output = append(output, i)
-	}
+func (repo *FileRepository) GetById(uuid string) []models.File {
+	output := make([]models.File, 0)
+	// for i := min; i < max; i++ {
+	// 	output = append(output, i)
+	// }
 	return output
 }
