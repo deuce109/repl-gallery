@@ -1,25 +1,27 @@
 package main
 
 import (
-	database "main/database"
-	handlers "main/handlers"
-	flags "main/utils/flags"
-	"net/http"
-
+	"fmt"
+	"github.com/go-faker/faker/v4"
 	"github.com/gorilla/mux"
+	models "main/models"
+	"net/http"
 )
 
 func main() {
 	r := mux.NewRouter()
-	config := &database.DatabaseConfig{}
-	err := flags.ParseArgs(config, "ConnectionString")
+	var request models.Request
+	err := faker.FakeData(&request)
 
-	_, err = database.Connect(config)
+	if err != nil {
+		fmt.Printf("%s", err)
+	}
+
+	data, err := request.ToJson()
+
 	if err != nil {
 		panic(err)
 	}
-
-	handlers.FileHandler(r)
-
+	fmt.Printf("%s", string(data))
 	http.ListenAndServe(":80", r)
 }

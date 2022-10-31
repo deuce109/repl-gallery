@@ -6,7 +6,6 @@ import (
 )
 
 type FileRepository struct {
-	db *database.Database
 }
 
 func (repo *FileRepository) GetById(uuid string) []models.File {

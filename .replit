@@ -1,4 +1,4 @@
-run = ["go", "run", "main.go", "-c", "test"]
+run = ["go", "run", "main.go", "-c", "./test.db", "-d", "sqlite"]
 
 # If the main file is changed, also change it in Makefile.
 entrypoint = "main.go"
