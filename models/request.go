@@ -3,7 +3,7 @@ package models
 import (
 	"encoding/json"
 
-	bson "github.com/globalsign/mgo/bson"
+	bson "labix.org/v2/mgo/bson"
 )
 
 type artType string
@@ -43,7 +43,6 @@ type Request struct {
 	Type        artType       `bson:"type" json:"type"`
 }
 
-func (request *Request) ToJson() (data []byte, err error) {
-	data, err = json.Marshal(&request)
-	return
+func (request *Request) ToJson() ([]byte, error) {
+	return json.Marshal(&request)
 }

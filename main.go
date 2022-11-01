@@ -2,26 +2,30 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-faker/faker/v4"
-	"github.com/gorilla/mux"
-	models "main/models"
+	"main/repositories"
 	"net/http"
+	"os"
+
+	"github.com/gorilla/mux"
+	"labix.org/v2/mgo"
 )
 
 func main() {
 	r := mux.NewRouter()
-	var request models.Request
-	err := faker.FakeData(&request)
+
+	session, err := mgo.Dial(os.Getenv("mongo_url"))
+
+	if err != nil {
+		panic(err)
+	}
+
+	db := session.DB("gallery")
+
+	_ = repositories.NewPhotoRepository(db)
 
 	if err != nil {
 		fmt.Printf("%s", err)
 	}
 
-	data, err := request.ToJson()
-
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%s", string(data))
 	http.ListenAndServe(":80", r)
 }
